@@ -4,9 +4,10 @@
 A web-based application for voting candidate on CJKT Workshop
 
 ## Tools
-* NodeJS 10.16.0
-* ExpressJS 4.17.1
-* MongoDB
+* [NodeJS](https://nodejs.org/)
+* [ExpressJS](https://expressjs.com/)
+* [MongoDB](https://www.mongodb.com/)
+* [Bootstrap](https://getbootstrap.com/)
 
 ## How to deploy
 1. Clone the git repository
