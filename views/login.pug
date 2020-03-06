@@ -1,0 +1,21 @@
+extends layout
+
+block content
+	header.masthead.text-center
+		.container.d-flex.align-items-center.flex-column
+			h1.masthead-heading.text-uppercase.mb-0 Login
+		.container
+			hr.star-dark.mb-5
+			p.text-warning.mb-3(style='font-weight: 600') Please login using registered email address
+			.row.text-left
+				.col-lg-12.mx-auto
+					form#contactForm(novalidate='novalidate', method='post', action='/login')
+						.control-group
+							.form-group.floating-label-form-group.controls.mb-0.pb-2
+								label Email Address
+								input#email.form-control(type='email', placeholder='Email Address', required='required', data-validation-required-message='Please enter your email address.')
+								p.help-block.text-danger.mb-0
+						br
+						#success
+						.form-group
+							button#sendMessageButton.btn.btn-block.btn-primary.btn-xl(type='submit') Login

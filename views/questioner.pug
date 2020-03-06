@@ -1,0 +1,109 @@
+extends layout
+
+block content
+	header.masthead.text-center(style='padding-top: calc(6rem + 10px);')
+		.container.d-flex.align-items-center.flex-column
+		.container
+			h2.text-center.text-uppercase.text-secondary.mb-0 Best Questioner
+			hr.star-dark
+			if total == 0
+				.mb-3
+					p.text-danger.mb-3(style='font-weight: 600') You have been vote for 2 Best Questioner, click button below to revote
+					a#revote.btn.btn-danger.btn-block(href='#') Revote
+					a.btn.btn-warning.btn-block(href='/') Cancel
+			else
+				p.text-warning.mb-3(style='font-weight: 600') 
+					| Please vote 
+					if total
+						span#totalVote(style='font-size: 1.5em;') #{total}
+					else
+						span#totalVote(style='font-size: 1.5em;') 2
+					|  Best Questioner
+
+			if total != 0
+				.row
+					.col-md-12.col-lg-12
+						#success
+				.row.text-left
+					.col-md-12.col-lg-12
+						.fancy-collapse-panel
+							#accordion.panel-group(role='tablist', aria-multiselectable='true')
+								each val in list
+									.panel.panel-default
+										.panel-heading(role='tab', style='position: relative', id='heading'+val.id)
+											h6.panel-title
+													a.questioner(data-toggle='collapse', data-parent='#accordion', href='#collapse'+val.id, aria-expanded='true', aria-controls='collapse'+val.id) 
+														i.fa(style='font-weight: 100;').fa-user  
+														|  #{val.name}
+														br
+														span(style='font-size: 0.7em; font-weight: 100;') [#{val.univ}]
+													a.lala.btn.btn-success.btn-xs.mx-auto(href='#', data-id=val.id, data-name=val.name, style='border: none; color: #ffffff; background-color: #28a745; line-height: 0.3; width: 4em; min-width: 4em; padding: 0.9em 0.6em; position: absolute; right: 0.5em; top: 50%; transform: translateY(-50%);') Vote
+
+block modal
+	#exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+		.modal-dialog(role='document', style='padding-top: calc(6rem + 30px);')
+			.modal-content
+				.modal-header
+					h5#exampleModalLabel.modal-title Best Presenter
+					button.close(type='button', data-dismiss='modal', aria-label='Close')
+						span(aria-hidden='true') ×
+				.modal-body
+					p Are You sure want to vote:
+					h3#choosen.text-center 
+					p#choosen-id.d-none
+				.modal-footer
+					button.btn.btn-secondary.mr-auto(type='button', data-dismiss='modal') Close
+					a#modal-vote.btn.btn-success(href='#') Vote
+
+block customscript
+	script.
+		$(document).on('click', '.lala', function(e) {
+			e.preventDefault();
+			var data_id = $(this).attr('data-id');
+			var data_name = $(this).attr('data-name');
+
+			$('h3#choosen').text(data_name);
+			$('p#choosen-id').text(data_id);
+			$('#exampleModal').modal('show');
+		})
+
+		$(document).on('click', '#modal-vote', function(e) {
+			e.preventDefault();
+			var data_id = $('p#choosen-id').text();
+			var data_name = $('h3#choosen').text();
+
+			$.ajax({
+				url: "/vote-questioner-new",
+				type: "POST",
+				data: {
+					data_id		: data_id,
+					data_name	: data_name
+				},
+				cache: false,
+				success: function(data) {
+					if(data.status == 'ok') {
+						if(data.vote == 1) {
+							window.location.href = "/questioner";
+						} else if(data.vote == 2) {
+							window.location.href = "/";
+						}
+					} else if(data.status == 'same') {
+						$('#success').html('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><strong>Sorry, Cannot Vote the Same Questioner</strong></div>')
+
+						$("html, body").animate({ scrollTop: 0 }, "slow");
+					}
+				}
+			});
+		})
+
+		$(document).on('click', '#revote', function(e) {
+			e.preventDefault();
+			$.ajax({
+				url: "/revote-questioner-new",
+				type: "GET",
+				cache: false,
+				success: function(data) {
+					window.location.href = "/questioner";
+				}
+			});
+		})

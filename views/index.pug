@@ -1,0 +1,25 @@
+extends layout
+
+block content
+	header.masthead.text-center(style='padding-top: calc(6rem + 10px);')
+		.container.d-flex.align-items-center.flex-column
+		.container
+			hr.star-dark
+			p.text-warning.mb-3(style='font-weight: 600') Please choose Best Presenter and Best Questioner. You can choose 2 candidate each
+			.row
+				p.text-warning.mb-3(style='font-weight: 600') 
+				.col-md-12.col-lg-12.col-sm-12.col-xs-12
+					if alert == 1
+						.alert.alert-success
+							button.close(type='button', data-dismiss='alert', aria-hidden='true') ×
+							strong Thank You For Voting The Best Presenter
+					else if alert == 2
+						.alert.alert-success
+							button.close(type='button', data-dismiss='alert', aria-hidden='true') ×
+							strong Thank You For Voting The Best Questioner
+				.col-md-12.col-lg-12.col-sm-12.col-xs-12.mb-3
+					a.portfolio-item.d-block.mx-auto(href='/presenter')
+						img.img-fluid(src='img/portfolio/presenter.png', alt='')
+				.col-md-12.col-lg-12.col-sm-12.col-xs-12
+					a.portfolio-item.d-block.mx-auto(href='/questioner')
+						img.img-fluid(src='img/portfolio/questioner.png', alt='')

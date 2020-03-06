@@ -1,0 +1,42 @@
+extends layout
+
+block content
+	header.masthead.text-center(style='padding-top: calc(6rem + 10px);')
+		.container.d-flex.align-items-center.flex-column
+		.container
+			h2.text-center.text-uppercase.text-secondary.mb-0 Best Questioner Result
+			hr.star-dark
+			.row
+				.col-md-12.col-lg-12
+					table.table
+						thead.thead-dark
+							tr
+								th(scope='col') #
+								th(scope='col') Name
+								th(scope='col') Total
+						tbody
+							- var n = 1
+							for val in list
+								- var klass = (n == 1 ? 'table-success': '')
+								tr(class=klass)
+									th.text-center(scope='row')= n++
+									td= val._id
+									td.text-center= val.count
+			
+			.row
+				.col-md-12.col-lg-12
+					table.table
+						thead.thead-dark
+							tr
+								th(scope='col') #
+								th(scope='col') Name
+								th(scope='col') Total
+						tbody
+							- var n = 1
+							for val in novote
+								- var klass = (n == 1 ? 'table-danger': '')
+								tr(class=klass)
+									th.text-center(scope='row')= n++
+									td= val._id
+									td.text-center= val.count
+			
